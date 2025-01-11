@@ -13,7 +13,7 @@ import hashlib
 def vanilla():
     """获取版本信息"""
     logging.info("[Page] DownloadServer.vanilla 页面已加载")
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     print("正在获取版本列表")
     for retry in range(3):
         logging.info("[Net] 正在获取原版版本列表：https://bmclapi2.bangbang93.com/mc/game/version_manifest_v2.json")
@@ -37,7 +37,7 @@ def vanilla():
 
     """做中文翻译"""
     # reversed() 是用来做倒序的，因为 json 里是正序（高版本->中版本->低版本）
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     MCType = input("请选择你需要展示的版本类型（全部/正式版/快照版）：\n> ")
     if "all" in MCType.lower() or "全部" in MCType.lower() or MCType == "1":
         print("")
@@ -122,9 +122,9 @@ def vanilla():
                             jar.write(chunk) # 以块+二进制的方式写入到文件里
                         Jar_size = int(os.path.getsize(f"Download/Temp/Vanilla_{DownloadVersion}.jar"))/1048576 # 转换为 MB 单位(/1024/1024 = /1024*1024)
                         logging.info(f"[Net] 获取 {DownloadVersion}.jar 成功，大小：{Jar_size} MB")
-                        print(f"{DownloadVersion}.jar 下载成功，大小：{Jar_size:.1f}MB")
+                        print(f"{DownloadVersion}.jar 下载成功，大小：{Jar_size:.1f}MB。")
                     with open(f"Download/Temp/Vanilla_{DownloadVersion}.jar", "rb") as f:
-                        logging.info(f"[System] {DownloadVersion}.jar 的 MD5 哈希值：" + hashlib.md5(f.read()).hexdigest())
+                        logging.info(f"[System] {DownloadVersion}.jar 的 MD5 哈希值：" + hashlib.md5(f.read()).hexdigest() + "。")
 
                     """判断文件夹"""
                     if not os.path.exists("Server/[原版]"+ DownloadVersion):
@@ -151,13 +151,13 @@ def vanilla():
         
         news = input(f"是否下载最新的正式版：[{MCLatestVersion}]？(Y/n):")
         if "n" in news.lower() or "否" in news.lower() or "不" in news.lower():
-            os.system("cls")
+            os.system("cls" if os.name == "nt" else "clear")
             return # 直接退出函数，返回上一级
 
         """Retry"""
         for retry in range(3): # 3次重试
             logging.info(f'[Net] 正在下载原版服务端 {MCLatestVersion}："{DownloadLink}"') # 加冒号的原因：点名表扬愚人节快照版本id(比如 3D Shareware v1.34 会把 URL 分节而不能在 VS Code 里面打开)
-            os.system("cls")
+            os.system("cls" if os.name == "nt" else "clear")
             print(f"正在下载[原版]服务端：[{MCLatestVersion}]，请稍等...")
             with requests.get(DownloadLink, stream=True) as Get_jar: # 用流式传输，因为后面的.jar可能会很大，现在的 1.21 都接近 50MB 了 
                 if Get_jar.status_code == 200:
@@ -176,15 +176,15 @@ def vanilla():
                     """移动服务器.jar文件"""
                     shutil.move(f"Download/Temp/Vanilla_{MCLatestVersion}.jar", f"Server/[原版]{MCLatestVersion}/[原版]{MCLatestVersion}.jar") # 特意删的空格，至少减少了有空格导致的bug的发生...
                     logging.info(f"[System] {MCLatestVersion}.jar 剪切完毕，新命名：[原版]{MCLatestVersion}.jar")
-                    logging.info(f"[System] 原版服务端 {MCLatestVersion} 下载完毕")
+                    logging.info(f"[System] 原版服务端 {MCLatestVersion} 下载完毕。")
                     break
                 else:
                     logging.error(f"[Net] 获取 {MCLatestVersion}.jar 失败，返回值：{Get_jar.status_code}，正在重试{retry+1}/3，每次3s...")
                     print(f"下载 {MCLatestVersion}.jar 失败，HTTP 错误代码：{Get_jar.status_code}\n正在重试{retry+1}/3，每次隔3秒...")
                     time.sleep(3) # 3秒一次
-            logging.error("[Net] 三次重试次数已用完")
+            logging.error("[Net] 三次重试次数已用完。")
             print("")
-            print("三次重试均为失败，请检查网络设置并重试")
+            print("三次重试均为失败，请检查网络设置并重试。")
     
     input("按回车返回...")
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")

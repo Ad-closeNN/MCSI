@@ -21,11 +21,6 @@ def loading():
     if not os.path.exists("Server"):
         os.mkdir("Server")
         logging.info("[System] 已创建 Server 文件夹")    
-    """检查 Java"""
-    try:
-        os.getenv("GGBond")
-    except Exception as e:
-        print(e)
     logging.info("[Loading] 初始化完毕")
 
         

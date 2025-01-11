@@ -16,19 +16,25 @@ def download_server():
 
         Download_Page = input("> ")
         if Download_Page == "1":
-            os.system("cls")
+            os.system("cls" if os.name == "nt" else "clear")
             print("海内存知己，天涯若比邻\n        请稍等...") # 跟微软学的(x
             import Pages.Download_Server.Vanilla
+            logging.info("[Page] 已从 DownloadServer 加载到 DownloadServer.vanilla")
             Pages.Download_Server.Vanilla.vanilla()
             logging.info("[Page] 已从 DownloadServer.vanilla 返回到 DownloadServer")
         
         if Download_Page == "2":
+            os.system("cls" if os.name == "nt" else "clear")
+            print("海内存知己，天涯若比邻\n        请稍等...") # 跟微软学的(x
             import Pages.Download_Server.Plugin
+            logging.info("[Page] 已从 DownloadServer 加载到 DownloadServer.plugin")
             Pages.Download_Server.Plugin.plugin()
+            logging.info("[Page] 已从 DownloadServer.plugin 返回到 DownloadServer")
         
         if Download_Page == "3":
             import Pages.Download_Server.ModLoader
             Pages.Download_Server.ModLoader.modloader()
         
         if Download_Page == "4":
+            os.system("cls" if os.name == "nt" else "clear")
             return
